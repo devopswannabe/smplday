@@ -1,0 +1,24 @@
+---
+- hosts: all
+  tasks:
+  - name: Run the equivalent of "apt-get update" over ansible
+    apt:
+      update_cache: yes
+    become: yes
+
+  - name: Install nginx
+    apt:
+      name: nginx
+    become: yes
+
+  - name: Remove default nginx web page
+    file:
+      dest: /var/www/html/index.nginx-debian.html
+      state: absent
+    become: yes
+
+  - name: Provision custom web page
+    copy:
+      src: files/index.html
+      dest: /var/www/html/index.html
+    become: yes
